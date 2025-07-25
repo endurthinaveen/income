@@ -26,6 +26,21 @@ class _IncomeEntryScreenState extends State<IncomeEntryScreen> {
   DateTime selectedDate = DateTime.now();
   File? _pickedImage;
 
+  // lib/utils/category_data.dart
+  final Map<String, IconData> incomeCategories = {
+    'Salary': Icons.attach_money,
+    'Freelance': Icons.laptop_mac,
+    'Bonus': Icons.card_giftcard,
+  };
+
+  final Map<String, IconData> expenseCategories = {
+    'Food': Icons.restaurant,
+    'Shopping': Icons.shopping_bag,
+    'Travel': Icons.directions_car,
+    'Utilities': Icons.lightbulb,
+  };
+
+
   Future<void> _pickDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -178,7 +193,6 @@ class _IncomeEntryScreenState extends State<IncomeEntryScreen> {
       ),
     );
   }
-
   Future<void> _submitIncome() async {
     final amount = double.tryParse(amountController.text) ?? 0;
     if (amount <= 0 || selectedCategory.isEmpty || selectedWallet.isEmpty) return;
@@ -189,14 +203,15 @@ class _IncomeEntryScreenState extends State<IncomeEntryScreen> {
       time: DateFormat('hh:mm a').format(selectedDate),
       amount: amount,
       isIncome: true,
-      icon: Icons.attach_money,
+      icon: incomeCategories[selectedCategory] ?? Icons.attach_money,
       color: Colors.green,
-      category: '',
+      category: selectedCategory,
       dateTime: selectedDate,
     );
 
     context.read<TransactionBloc>().add(AddTransaction(transaction));
     Navigator.pop(context);
   }
+
 
 }

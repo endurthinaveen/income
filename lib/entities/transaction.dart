@@ -31,7 +31,8 @@ class TransactionEntity {
     amount: json['amount'],
     isIncome: json['isIncome'],
     category: json['category'],
-    icon: IconData(json['icon'], fontFamily: 'MaterialIcons'),
+    icon: const IconData(0xe3af, fontFamily: 'MaterialIcons'),
+
     color: Color(json['color']),
     dateTime: json['timestamp'] != null
         ? DateTime.tryParse(json['timestamp']) ?? DateTime.now()

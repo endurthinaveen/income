@@ -24,6 +24,19 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
   DateTime selectedDate = DateTime.now();
   File? _pickedImage;
 
+  final Map<String, IconData> incomeCategories = {
+    'Salary': Icons.attach_money,
+    'Freelance': Icons.laptop_mac,
+    'Bonus': Icons.card_giftcard,
+  };
+
+  final Map<String, IconData> expenseCategories = {
+    'Food': Icons.restaurant,
+    'Shopping': Icons.shopping_bag,
+    'Travel': Icons.directions_car,
+    'Utilities': Icons.lightbulb,
+  };
+
 
   Future<void> _pickDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -181,16 +194,17 @@ class _ExpenseEntryScreenState extends State<ExpenseEntryScreen> {
     final amount = double.tryParse(amountController.text) ?? 0;
     if (amount <= 0 || selectedCategory.isEmpty || selectedWallet.isEmpty) return;
 
+    final icon = incomeCategories[selectedCategory] ?? Icons.attach_money;
+
     final transaction = TransactionEntity(
       title: selectedCategory,
       subtitle: descriptionController.text.isEmpty ? 'No description' : descriptionController.text,
       time: DateFormat('hh:mm a').format(selectedDate),
-
       amount: amount,
-      isIncome: false,
-      icon: Icons.shopping_cart,
-      color: Colors.red,
-      category: '',
+      isIncome: true,
+      icon: icon,
+      color: Colors.green,
+      category: selectedCategory,
       dateTime: selectedDate,
     );
 
